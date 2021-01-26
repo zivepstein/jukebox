@@ -223,6 +223,7 @@ def save_samples(model, device, hps, sample_hps):
     while len(metas) < hps.n_samples:
         metas.extend(metas)
     metas = metas[:hps.n_samples]
+    print(metas)
 
     labels = [prior.labeller.get_batch_labels(metas, 'cuda') for prior in priors]
     for label in labels:
@@ -230,12 +231,14 @@ def save_samples(model, device, hps, sample_hps):
 
     lower_level_chunk_size = 32
     lower_level_max_batch_size = 16
+    lower_level_max_batch_size = 8
     if model == '1b_lyrics':
         chunk_size = 32
         max_batch_size = 16
     else:
         chunk_size = 16
         max_batch_size = 3
+        max_batch_size = 1
     sampling_kwargs = [dict(temp=0.99, fp16=True, chunk_size=lower_level_chunk_size, max_batch_size=lower_level_max_batch_size),
                        dict(temp=0.99, fp16=True, chunk_size=lower_level_chunk_size, max_batch_size=lower_level_max_batch_size),
                        dict(temp=0.99, fp16=True, chunk_size=chunk_size, max_batch_size=max_batch_size)]

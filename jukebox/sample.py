@@ -231,7 +231,7 @@ def save_samples(model, device, hps, sample_hps):
 
     lower_level_chunk_size = 32
     lower_level_max_batch_size = 16
-    lower_level_max_batch_size = 8
+    lower_level_max_batch_size = 4
     if model == '1b_lyrics':
         chunk_size = 32
         max_batch_size = 16

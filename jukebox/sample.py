@@ -185,37 +185,15 @@ def save_samples(model, device, hps, sample_hps):
     total_length = hps.total_sample_length_in_seconds * hps.sr
     offset = 0
 
+
+
     # Set artist/genre/lyrics for your samples here!
     # We used different label sets in our models, but you can write the human friendly names here and we'll map them under the hood for each model.
     # For the 5b/5b_lyrics model and the upsamplers, labeller will look up artist and genres in v2 set. (after lowercasing, removing non-alphanumerics and collapsing whitespaces to _).
     # For the 1b_lyrics top level, labeller will look up artist and genres in v3 set (after lowercasing).
-    metas = [dict(artist = "Alan Jackson",
-                  genre = "Country",
-                  lyrics = poems['ozymandias'],
-                  total_length=total_length,
-                  offset=offset,
-                  ),
-             dict(artist="Joe Bonamassa",
-                  genre="Blues Rock",
-                  lyrics=gpt_2_lyrics['hottub'],
-                  total_length=total_length,
-                  offset=offset,
-                  ),
-             dict(artist="Frank Sinatra",
-                  genre="Classic Pop",
-                  lyrics=gpt_2_lyrics['alone'],
-                  total_length=total_length,
-                  offset=offset,
-                  ),
-             dict(artist="Ella Fitzgerald",
-                  genre="Jazz",
-                  lyrics=gpt_2_lyrics['count'],
-                  total_length=total_length,
-                  offset=offset,
-                  ),
-             dict(artist="Céline Dion",
-                  genre="Pop",
-                  lyrics=gpt_2_lyrics['darkness'],
+    metas = [dict(artist = hps.artist,
+                  genre = hps.genre,
+                  lyrics = hps.lyrics,
                   total_length=total_length,
                   offset=offset,
                   ),

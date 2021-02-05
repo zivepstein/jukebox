@@ -1,0 +1,19 @@
+<html>
+
+<head></head>
+
+<body>
+	<h1>Artificial.radio</h1>
+    <button onclick="wave.play()">Play</button>
+    <button onclick="wave.pause()">Pause</button>
+    <div id="chart-container" style="width: 50%; height: 50%;"></div>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.1/dist/echarts.min.js"></script>
+    <script src="{{url_for('static', filename='js/circular-audio-wave.js')}}"></script>
+    <script>
+        let wave = new CircularAudioWave(document.getElementById('chart-container'));
+        wave.loadAudio("{{url_for('static', filename='assets/audio1.wav')}}");
+        wave.loadAudio("{{url_for('static', filename='assets/audio2.mp3')}}");
+    </script>
+</body>
+
+</html>

@@ -115,9 +115,9 @@ def _sample(zs, labels, sampling_kwargs, priors, sample_levels, hps):
             os.makedirs(logdir)
         t.save(dict(zs=zs, labels=labels, sampling_kwargs=sampling_kwargs, x=x), f"{logdir}/data.pth.tar")
         save_wav(logdir, x, hps.sr)
-        if alignments is None and priors[-1] is not None and priors[-1].n_tokens > 0 and not isinstance(priors[-1].labeller, EmptyLabeller):
-            alignments = get_alignment(x, zs, labels[-1], priors[-1], sampling_kwargs[-1]['fp16'], hps)
-        save_html(logdir, x, zs, labels[-1], alignments, hps)
+        # if alignments is None and priors[-1] is not None and priors[-1].n_tokens > 0 and not isinstance(priors[-1].labeller, EmptyLabeller):
+        #     alignments = get_alignment(x, zs, labels[-1], priors[-1], sampling_kwargs[-1]['fp16'], hps)
+        #ave_html(logdir, x, zs, labels[-1], alignments, hps)
     return zs
 
 # Generate ancestral samples given a list of artists and genres
@@ -217,9 +217,9 @@ def save_samples(model, device, hps, sample_hps):
         chunk_size = 16
         max_batch_size = 3
         max_batch_size = 1
-    sampling_kwargs = [dict(temp=0.99, fp16=True, chunk_size=lower_level_chunk_size, max_batch_size=lower_level_max_batch_size),
-                       dict(temp=0.99, fp16=True, chunk_size=lower_level_chunk_size, max_batch_size=lower_level_max_batch_size),
-                       dict(temp=0.99, fp16=True, chunk_size=chunk_size, max_batch_size=max_batch_size)]
+    sampling_kwargs = [dict(temp=hps.temp, fp16=True, chunk_size=lower_level_chunk_size, max_batch_size=lower_level_max_batch_size),
+                       dict(temp=hps.temp, fp16=True, chunk_size=lower_level_chunk_size, max_batch_size=lower_level_max_batch_size),
+                       dict(temp=hps.temp, fp16=True, chunk_size=chunk_size, max_batch_size=max_batch_size)]
 
     if sample_hps.mode == 'ancestral':
         ancestral_sample(labels, sampling_kwargs, priors, hps)

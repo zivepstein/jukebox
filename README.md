@@ -34,16 +34,9 @@ pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cud
 # Sampling
 ## Sampling from scratch
 To sample normally, run the following command. Model can be `5b`, `5b_lyrics`, `1b_lyrics`
-``` 
-python jukebox/sample.py --model=5b_lyrics --name=sample_5b --levels=3 --sample_length_in_seconds=20 \
---total_sample_length_in_seconds=180 --sr=44100 --n_samples=6 --hop_fraction=0.5,0.5,0.125
+
 ```
-``` 
-python jukebox/sample.py --model=1b_lyrics --name=sample_1b --levels=3 --sample_length_in_seconds=20 \
---total_sample_length_in_seconds=180 --sr=44100 --n_samples=16 --hop_fraction=0.5,0.5,0.125
-```
-```
-python jukebox/sample.py --model=5b_lyrics --name=sample_5b --levels=3 --sample_length_in_seconds=10 --total_sample_length_in_seconds=180 --sr=44100 --n_samples=2 --hop_fraction=0.5,0.5,0.125 --artist="Alan Jackson" --genre="Country" --lyrics="I met a traveller from an antique land,\nWho said—Two vast and trunkless legs of stone\nStand in the desert. . . . Near them, on the sand,\nHalf sunk a shattered visage lies, whose frown,\nAnd wrinkled lip, and sneer of cold command,\nTell that its sculptor well those passions read\nWhich yet survive, stamped on these lifeless things,\nThe hand that mocked them, and the heart that fed;\nAnd on the pedestal, these words appear:\nMy name is Ozymandias, King of Kings"
+python jukebox/sample.py --model=1b_lyrics --name=sample_1b --levels=3 --sample_length_in_seconds=20 --total_sample_length_in_seconds=180 --sr=44100 --n_samples=1 --temp 0.98 --hop_fraction=0.5,0.5,0.125 --artist="Pink Floyd" --genre="steampunk" --lyrics="The interstitial space between human and machine subjectivity is a complex amalgamation of social energies from online collaboration, anonymous distribution, value-collecting and political participation. It is also a prototypical location for emergent phenomena emerging from the interplay of individual citizens power and labor."
 ```
 The above generates the first `sample_length_in_seconds` seconds of audio from a song of total length `total_sample_length_in_seconds`.
 To use multiple GPU's, launch the above scripts as `mpiexec -n {ngpus} python jukebox/sample.py ...` so they use `{ngpus}`

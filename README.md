@@ -53,6 +53,12 @@ decrease `max_batch_size` in sample.py, and `--n_samples` in the script call.
 
 On a V100, it takes about 3 hrs to fully sample 20 seconds of music. Since this is a long time, it is recommended to use `n_samples > 1` so you can generate as many samples as possible in parallel. The 1B lyrics and upsamplers can process 16 samples at a time, while 5B can fit only up to 3. Since the vast majority of time is spent on upsampling, we recommend using a multiple of 3 less than 16 like `--n_samples 15` for `5b_lyrics`. This will make the top-level generate samples in groups of three while upsampling is done in one pass.
 
+To sample normally but looping through a bunch of genres/lyrics/artists/temperature, use the `sample_multiplex.py` file, and edit the arrays on liness 193, 194, and 195 with the corresponding parameters and it will proceed from there. It will autopopulate the name accordingly.
+
+```
+python jukebox/sample.py --model=1b_lyrics --levels=3 --sample_length_in_seconds=20 --total_sample_length_in_seconds=180 --sr=44100 --n_samples=1  --hop_fraction=0.5,0.5,0.125
+```
+
 To continue sampling from already generated codes for a longer duration, you can run
 ```
 python jukebox/sample.py --model=5b_lyrics --name=sample_5b --levels=3 --mode=continue \

@@ -81,9 +81,10 @@ Here, we take the 20 seconds samples saved from the first sampling run at `sampl
 ## Prompt with your own music
 If you want to prompt the model with your own creative piece or any other music, first save them as wave files and run
 ```
-python jukebox/sample.py --model=5b_lyrics --name=sample_5b_prompted --levels=3 --mode=primed \
---audio_file=path/to/recording.wav,awesome-mix.wav,fav-song.wav,etc.wav --prompt_length_in_seconds=12 \
---sample_length_in_seconds=20 --total_sample_length_in_seconds=180 --sr=44100 --n_samples=6 --hop_fraction=0.5,0.5,0.125
+python jukebox/sample.py --model=1b_lyrics --name=so_good_prompted --levels=3 --mode=primed \
+--audio_file=jukebox/data/primes/so_good.wav --prompt_length_in_seconds=12 \
+--sample_length_in_seconds=20 --total_sample_length_in_seconds=180 --sr=44100 --n_samples=6 --hop_fraction=0.5,0.5,0.125 \ 
+--artist="Pink Floyd" --genre="steampunk" --lyrics "The interstitial space between human and machine subjectivity is a complex amalgamation of social energies"
 ```
 This will load the four files, tile them to fill up to `n_samples` batch size, and prime the model with the first `prompt_length_in_seconds` seconds.
 

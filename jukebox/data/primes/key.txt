@@ -1,0 +1,10 @@
+filename, song_name, artist, notes
+lyrics_so_good.wav, So Good, ORKAS, acoustic pop + Uplifing + happy (lyrics)
+rockin_it.wav, Rockin It, Young Lords, Reggae + Pop (lyrics)
+lyrics_stay_right_there.wav, Stay Right There, Michal Shynes, pop (lyrics)
+lyrics_good2go.wav, Good to Go, Tyler Ashley, Country + Pop + Folk (lyrics)
+lyrics_opa.wav, Opa!, SO, World + pop (lyrics)
+flight_bird.wav, Flight of the Inner Bird, Sivan Talmor, (no lyics ish)
+we_found.wav, We Found, Sunny Fruit, Electronic Pop + Uplifting (no lyrics)
+chaos_spaceship.wav, Chaos in a Spaceship, Out of Flux, Cinematic + electronic (no lyrics)
+new_guy.wav, New Guy, Kly, electronic + hip hop + folksy (no lyrics)

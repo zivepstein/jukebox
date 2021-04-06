@@ -26,7 +26,9 @@ records_df = pd.DataFrame.from_dict(records_data)
 params = ['model','levels','model','audio_file','prompt_length_in_seconds',	'sample_length_in_seconds',	'total_sample_length_in_seconds','sr','n_samples','hop_fraction','artist','genre','temp','lyrics']
 commands_to_run = []
 for i,r in records_df[records_df['to_run']==1].iterrows():
-	command = []
+	name =  "{}_{}_{}".format(r['audio_file'].split('/')[-1].split('.')[0].replace(" ",""), r['artist'].replace(" ",""),r['genre'].replace(" ",""))
+	print(name)
+	command = ['--name={}'.format(name)]
 	for param,value in r.items():
 		if param in params:
 			if isinstance(value, str) and " " in value:

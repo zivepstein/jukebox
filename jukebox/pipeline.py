@@ -23,7 +23,7 @@ sheet_instance = sheet.get_worksheet(0)
 records_data = sheet_instance.get_all_records()
 
 records_df = pd.DataFrame.from_dict(records_data)
-hyperparameters = ['model','levels','model','audio_file','prompt_length_in_seconds',	'sample_length_in_seconds',	'total_sample_length_in_seconds','sr','n_samples','hop_fraction','artist','genre','temp','lyrics']
+hyperparameters = ['model','levels','model','audio_file','prompt_length_in_seconds',	'sample_length_in_seconds',	'total_sample_length_in_seconds','sr','n_samples','hop_fraction','artist','genre','temp','lyrics', 'mode']
 for i,r in records_df.iterrows():
 	print(i)
 	if r['to_run']==1:

@@ -3,7 +3,12 @@ import pandas as pd
 import os
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
+import argparse
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--debug", type=bool, help="run in debug mode without writing to sheets or executing sample.py", default=False)
+args = parser.parse_args()
 
 # define the scope
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
@@ -25,10 +30,8 @@ records_data = sheet_instance.get_all_records()
 records_df = pd.DataFrame.from_dict(records_data)
 hyperparameters = ['model','levels','model','audio_file','prompt_length_in_seconds',	'sample_length_in_seconds',	'total_sample_length_in_seconds','sr','n_samples','hop_fraction','artist','genre','temp','lyrics', 'mode']
 for i,r in records_df.iterrows():
-	print(i)
-	if r['to_run']==1:
+	if r['to_run']==1 and r['start_time']=='':
 		name =  "{}_{}_{}".format(r['audio_file'].split('/')[-1].split('.')[0].replace(" ",""), r['artist'].replace(" ",""),r['genre'].replace(" ",""))
-		print(name)
 		command = ['--name={}'.format(name)]
 		for param,value in r.items():
 			if param in hyperparameters:
@@ -37,9 +40,10 @@ for i,r in records_df.iterrows():
 				else:
 					command.append("--{}={}".format(param,value))
 		command_to_run = "python jukebox/sample.py " + " ".join(command)
-		print('{} launched "{}" at {}'.format(i, command_to_run, datetime.now().strftime("%H:%M:%S %Y")) )
-		sheet_instance.update_cell(i+2, 3, datetime.now().strftime("%H:%M:%S, %m/%d/%Y")) # insert start time
-		os.system(command_to_run)
-		sheet_instance.update_cell(i+2, 4, datetime.now().strftime("%H:%M:%S, %m/%d/%Y")) # insert end time
-		sheet_instance.update_cell(i+2, 2, 0) # change 1 -> 0
+		# print('{} launched "{}" at {}'.format(i, command_to_run, datetime.now().strftime("%H:%M:%S %Y")) )
+		if not args.debug:
+			sheet_instance.update_cell(i+2, 3, datetime.now().strftime("%H:%M:%S, %m/%d/%Y")) # insert start time
+			os.system(command_to_run)
+			sheet_instance.update_cell(i+2, 4, datetime.now().strftime("%H:%M:%S, %m/%d/%Y")) # insert end time
+			sheet_instance.update_cell(i+2, 2, 0) # change 1 -> 0
 		#upload file to drive

@@ -32,7 +32,7 @@ hyperparameters = ['model','levels','model','audio_file','prompt_length_in_secon
 for i,r in records_df.iterrows():
 	if r['to_run']==1 and r['start_time']=='':
 		name =  "{}_{}_{}".format(r['audio_file'].split('/')[-1].split('.')[0].replace(" ",""), r['artist'].replace(" ",""),r['genre'].replace(" ",""))
-		command = ['--name={}'.format(name)]
+		command = ['--name=outputs/{}/{}'.format(r['exp_id'],name)]
 		for param,value in r.items():
 			if param in hyperparameters:
 				if isinstance(value, str) and " " in value:

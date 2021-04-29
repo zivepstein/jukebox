@@ -31,7 +31,7 @@ records_df = pd.DataFrame.from_dict(records_data)
 hyperparameters = ['model','levels','model','audio_file','prompt_length_in_seconds',	'sample_length_in_seconds',	'total_sample_length_in_seconds','sr','n_samples','hop_fraction','artist','genre','temp','lyrics', 'mode']
 for i,r in records_df.iterrows():
 	if r['to_run']==1 and r['start_time']=='':
-		name =  "{}_{}_{}".format(r['audio_file'].split('/')[-1].split('.')[0].replace(" ",""), r['artist'].replace(" ",""),r['genre'].replace(" ",""))
+		name =  "{}_{}_{}_prompt{}_dur{}".format(r['audio_file'].split('/')[-1].split('.')[0].replace(" ",""), r['artist'].replace(" ",""), r['genre'].replace(" ",""), r['prompt_length_in_seconds'], r['sample_length_in_seconds'])
 		command = ['--name=outputs/{}/{}'.format(r['exp_id'],name)]
 		for param,value in r.items():
 			if param in hyperparameters:

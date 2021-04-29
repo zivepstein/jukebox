@@ -33,6 +33,7 @@ for i,r in records_df.iterrows():
 	if r['to_run']==1 and r['start_time']=='':
 		name =  "{}_{}_{}_prompt{}_dur{}".format(r['audio_file'].split('/')[-1].split('.')[0].replace(" ",""), r['artist'].replace(" ",""), r['genre'].replace(" ",""), r['prompt_length_in_seconds'], r['sample_length_in_seconds'])
 		command = ['--name=outputs/{}/{}'.format(r['exp_id'],name)]
+		file_path = command
 		for param,value in r.items():
 			if param in hyperparameters:
 				if isinstance(value, str) and " " in value:
@@ -46,4 +47,5 @@ for i,r in records_df.iterrows():
 			os.system(command_to_run)
 			sheet_instance.update_cell(i+2, 4, datetime.now().strftime("%H:%M:%S, %m/%d/%Y")) # insert end time
 			sheet_instance.update_cell(i+2, 2, 0) # change 1 -> 0
-		#upload file to drive
+			sheet_instance.update_cell(i+2, 5, '=HYPERLINK("http://matlaberp2.media.mit.edu:8000/{}/level_0/","http://matlaberp2.media.mit.edu:8000/{}/level_0/")'.format(file_path, file_path)) # adding link to file
+		# upload file to drive

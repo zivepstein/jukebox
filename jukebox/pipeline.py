@@ -33,7 +33,7 @@ for i,r in records_df.iterrows():
 	if r['to_run']==1 and r['start_time']=='':
 		name =  "{}_{}_{}_prompt{}_dur{}".format(r['audio_file'].split('/')[-1].split('.')[0].replace(" ",""), r['artist'].replace(" ",""), r['genre'].replace(" ",""), r['prompt_length_in_seconds'], r['sample_length_in_seconds'])
 		command = ['--name=outputs/{}/{}'.format(r['exp_id'],name)]
-		file_path = command
+		file_path = "outputs/{}/{}".format(r['exp_id'], name)
 		for param,value in r.items():
 			if param in hyperparameters:
 				if isinstance(value, str) and " " in value:

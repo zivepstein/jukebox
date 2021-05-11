@@ -47,5 +47,5 @@ for i,r in records_df.iterrows():
 			os.system(command_to_run)
 			sheet_instance.update_cell(i+2, 4, datetime.now().strftime("%H:%M:%S, %m/%d/%Y")) # insert end time
 			sheet_instance.update_cell(i+2, 2, 0) # change 1 -> 0
-			sheet_instance.update_cell(i+2, 5, '=HYPERLINK("http://matlaberp2.media.mit.edu:8000/{}/level_0/","http://matlaberp2.media.mit.edu:8000/{}/level_0/")'.format(file_path, file_path)) # adding link to drive
+			sheet_instance.update_cell(i+2, 5, "http://matlaberp2.media.mit.edu:8000/{}/level_0/".format(file_path)) # adding link to drive
 		# upload file to drive

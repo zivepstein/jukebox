@@ -18,20 +18,19 @@ scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/aut
 # add credentials to the account
 creds = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
 
-def get_current_sheet(creds):
+def get_current_run_id(i):
 	client = gspread.authorize(creds)
 	sheet = client.open('jukebox pipeline')
 	sheet_instance = sheet.get_worksheet(0)
 	records_data = sheet_instance.get_all_records()
-	records_df = pd.DataFrame.from_dict(records_data)
-	return records_df
-
-def get_current_run_id(i):
-	current_df = get_current_sheet(creds)
+	current_df = pd.DataFrame.from_dict(records_data)
 	return current_df['run_id'][i]
 
-
-records_df = get_current_sheet(creds)
+client = gspread.authorize(creds)
+sheet = client.open('jukebox pipeline')
+sheet_instance = sheet.get_worksheet(0)
+records_data = sheet_instance.get_all_records()
+records_df = pd.DataFrame.from_dict(records_data)
 
 hyperparameters = ['model','levels','model','audio_file','prompt_length_in_seconds','sample_length_in_seconds',	'total_sample_length_in_seconds','sr','n_samples','hop_fraction','artist','genre','temp','lyrics', 'mode']
 for i,r in records_df.iterrows():

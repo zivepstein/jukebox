@@ -5,6 +5,10 @@ from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import argparse
 import random, string
+import psycopg2
+import time
+from creds import rds_username, rds_password, rds_url
+from creds import rds_port, rds_db
 
 
 parser = argparse.ArgumentParser()
@@ -32,6 +36,21 @@ sheet_instance = sheet.get_worksheet(0)
 records_data = sheet_instance.get_all_records()
 records_df = pd.DataFrame.from_dict(records_data)
 
+conn = psycopg2.connect(
+    host=rds_url,
+    port=rds_port,
+    dbname=rds_db,
+    user=rds_username,
+    password=rds_password)
+
+def write2database(conn, table, data):
+	cur = conn.cursor()
+	cur.execute(table, (data))
+	conn.commit()
+	cur.close()
+
+add_song = """ INSERT INTO afm_songs VALUES (now(), %s, %s, %s, %s, %s, %s)"""
+
 hyperparameters = ['model','levels','model','audio_file','prompt_length_in_seconds','sample_length_in_seconds',	'total_sample_length_in_seconds','sr','n_samples','hop_fraction','artist','genre','temp','lyrics', 'mode']
 for i,_ in records_df.iterrows():
 	r = get_current_run_row(i)
@@ -54,6 +73,13 @@ for i,_ in records_df.iterrows():
 			os.system(command_to_run)
 			sheet_instance.update_cell(i+2, 4, datetime.now().strftime("%H:%M:%S, %m/%d/%Y")) # insert end time
 			sheet_instance.update_cell(i+2, 2, 0) # change 1 -> 0
-			sheet_instance.update_cell(i+2, 5, "http://matlaberp2.media.mit.edu:8000/{}/level_0/".format(file_path)) # adding link to drive
+
+			url = "http://matlaber{}.media.mit.edu:8000/{}/level_0/".format(args.machine,file_path)
+			sheet_instance.update_cell(i+2, 5, url) # adding link to drive
+
+			for i in range(0,r['n_samples']):
+				song_id = "{}_{}".format(run_id, ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(6)))
+				data4db = (run_id,run_id,r['genre'],r['artist'],r['dna_artist'], url + "item_{}.wav".format(i))
+				write2database(conn, add_song, data4db)
 		else:
 			print('{} launched {} with code  "{}" at {}'.format(i, run_id,command_to_run, datetime.now().strftime("%H:%M:%S %Y")) )

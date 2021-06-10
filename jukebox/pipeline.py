@@ -78,8 +78,9 @@ for i,_ in records_df.iterrows():
 			sheet_instance.update_cell(i+2, 5, url) # adding link to drive
 
 			for i in range(0,r['n_samples']):
-				song_id = "{}_{}".format(run_id, ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(6)))
+				song_id = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(6))
 				data4db = (run_id,run_id,r['genre'],r['artist'],r['dna_artist'], url + "item_{}.wav".format(i))
+				data4db = ("{}_{}".format(run_id, song_id),run_id,r['genre'],r['artist'],r['audio_file'],r['dna_artist'], url + "item_{}.wav".format(i), "batch3")
 				write2database(conn, add_song, data4db)
 		else:
 			print('{} launched {} with code  "{}" at {}'.format(i, run_id,command_to_run, datetime.now().strftime("%H:%M:%S %Y")) )

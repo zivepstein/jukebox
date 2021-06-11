@@ -49,7 +49,7 @@ def write2database(conn, table, data):
 	conn.commit()
 	cur.close()
 
-add_song = """ INSERT INTO afm_songs VALUES (now(), %s, %s, %s, %s, %s, %s)"""
+add_song = """ INSERT INTO afm_songs_prod VALUES (now(), %s, %s, %s, %s, %s, %s, %s, %s)"""
 
 hyperparameters = ['model','levels','model','audio_file','prompt_length_in_seconds','sample_length_in_seconds',	'total_sample_length_in_seconds','sr','n_samples','hop_fraction','artist','genre','temp','lyrics', 'mode']
 for i,r in records_df.iterrows():
